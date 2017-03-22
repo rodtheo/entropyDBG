@@ -28,7 +28,7 @@ Para realizar esse calculo precisamos portanto de identificar as permutações p
 
 ![](images/rashevsky-fig1.png)
 
-Seja o grafo L ilustrado na figura 1-l acima. O grupo $Aut*(L)$ contem dois elementos: E=(1)(2)(3)(4)(5)(6) é a permutação identidade e A = (1)(25)(34)(67). Portanto, como o conjunto A contem todos os $n$ vértices de L com o maior número de elementos permutados em L temos:
+Seja o grafo L ilustrado na figura 1-l acima. O grupo $Aut*(L)$ contem dois elementos: E=(1)(2)(3)(4)(5)(6)(7) é a permutação identidade e A = (1)(25)(34)(67). Portanto, como o conjunto A contem todos os $n$ vértices de L com o maior número de elementos permutados em L temos:
 
 $$ N_{1} = \{1\}, N_{2}=\{2,5\}, N_{3}=\{3,4\}, N_{4}=\{6,7\} $$
 
@@ -36,7 +36,9 @@ $$ I(L) = - \frac{1}{7} log \frac{1}{7} - \frac{2}{7} log\frac{2}{7} - \frac{2}{
 
 $$ I(L) = \frac{1}{7} log 7 + \frac{6}{7} log \frac{7}{2} $$
 
-Repare que os grafos *b, d, g, i* e *k* mostrados na figura 1 tem entropia $log n$ e os grafos ditos transientes, na qual é possível permutar todos os elementos numa única operação, tem entropia 0.
+Repare que os grafos *b, d, g, i* e *k* mostrados na figura 1 tem entropia $log\ n$ e os grafos ditos transientes, na qual é possível permutar todos os elementos numa única operação, tem entropia igual a 0.
+
+Por exemplo, a entropia de rashevsky do grafo *b* é $H = -\frac{1}{2}\ log\ \frac{1}{2} -\frac{1}{2}\ log\ \frac{1}{2} = log\ 2$.
 
 Como a entropia de Rashevsky e Trucco baseiam-se inteiramente em características invariantes do grafo (graph invariants). Essas características abrangem o número de vértices, nós, conecções, etc. A principal limitação disto é que 2 grafos estruturalmente diferentes podem ter the same information content. Those mesures are so-called degenerate.
 
@@ -85,3 +87,23 @@ Lets consider the example given 3 graphs with alternative branchings as depicted
 With the distance matrix $M$ we can obtain the following information on distances:
 
 ![](images/bonchev-calculos.png)
+
+## Approximate Von Neumann Entropy for directed graphs
+
+Although the way of calculating the graph entropy using partition-based measures i.e., the set of automorphisms and the minimum distance between two nodes seem useful it is not computationally efficient. For larger graphs, it becomes an issue as there is no efficient algorithm to check if there exists an isomorphism for two given graphs and to compute the distance between two nodes can be a tough computer task.
+
+To overcome those issues, Ye et al (2014) extended the calculations of the von Neumann entropy for undirected graphs to directed graphs. And more, they simplified the equations to make them in terms of the nodes in-degree and out-degree. The von Neumann entropy of directed graph is:
+
+$$H_{VN}^{D} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} \left\{ \sum_{(u,v) \in E} \frac{d_{u}^{in}}{d_{u}^{in} (d_{u}^{out})^{2}} + \sum_{(u,v) \in E_{2}} \frac{1}{d_{v}^{in} d_{v}^{out}}\right\}$$
+
+Accoring to Ye at al, $E_{2} = \left\{ (u,v) | (u,v) \in E\ and\ (v,u) \in E \right\}$ which means that it is subset of all bidirected-edges. As we plain to calculate entropy of strongly directed graphs, i.e, graphs that has very fewer bidirectional links we can eliminate the second summation in $H_{VN}^{D}$. It gives the approximate entropy for strongly directed graphs as:
+
+$$H_{VN}^{SD} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} \sum_{(u,v) \in E} \frac{d_{u}^{in}}{d_{u}^{in} (d_{u}^{out})^{2}} $$
+
+As we can see, the above equation contain two terms. The first is related to the graph size, while the second depends on the degree statistics in the graph. Exploring which topologies give the maximum and minimum entropies it is clearly from equation $H_{VN}^{D}$ that when the term in curly brackets reaches their largest values, the von Neumann entropy takes on its minimum value. This occours when the structure is a circle (*talvez ligar o ultimo e primeiro no de uma sequencia chain linear para torna-la ciclica?*) and each node has only one outgoing link and one ingoing:
+
+$$H_{VN}^{D} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} |V| = 1 - \frac{1}{|V|} - \frac{1}{2 |V|} $$
+
+On the other hand, when the terms in the curly brackets take on their smallest value, the entropy is maximum. This occurs in structures of star graphs.
+
+This make sense to us, because when considering bubbles in de Bruijn graphs we increase the von Neumann entropy as oposite to linear chain. *temos que checar se os grafos de bruijn sao irreducible e aperiodics para a aproximacao da entropia de Neumann fazer sentido*
