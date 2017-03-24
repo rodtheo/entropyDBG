@@ -98,7 +98,7 @@ $$H_{VN}^{D} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} \left\{ \sum_{(u,v) \in E
 
 Accoring to Ye at al, $E_{2} = \left\{ (u,v) | (u,v) \in E\ and\ (v,u) \in E \right\}$ which means that it is subset of all bidirected-edges. As we plain to calculate entropy of strongly directed graphs, i.e, graphs that has very fewer bidirectional links we can eliminate the second summation in $H_{VN}^{D}$. It gives the approximate entropy for strongly directed graphs as:
 
-$$H_{VN}^{SD} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} \sum_{(u,v) \in E} \frac{d_{u}^{in}}{d_{u}^{in} (d_{u}^{out})^{2}} $$
+$$H_{VN}^{SD} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} \sum_{(u,v) \in E} \frac{d_{u}^{in}}{d_{v}^{in} (d_{u}^{out})^{2}} $$
 
 As we can see, the above equation contain two terms. The first is related to the graph size, while the second depends on the degree statistics in the graph. Exploring which topologies give the maximum and minimum entropies it is clearly from equation $H_{VN}^{D}$ that when the term in curly brackets reaches their largest values, the von Neumann entropy takes on its minimum value. This occours when the structure is a circle (*talvez ligar o ultimo e primeiro no de uma sequencia chain linear para torna-la ciclica?*) and each node has only one outgoing link and one ingoing:
 
@@ -106,4 +106,10 @@ $$H_{VN}^{D} = 1 - \frac{1}{|V|} - \frac{1}{2 |V|^{2}} |V| = 1 - \frac{1}{|V|} -
 
 On the other hand, when the terms in the curly brackets take on their smallest value, the entropy is maximum. This occurs in structures of star graphs.
 
-This make sense to us, because when considering bubbles in de Bruijn graphs we increase the von Neumann entropy as oposite to linear chain. *temos que checar se os grafos de bruijn sao irreducible e aperiodics para a aproximacao da entropia de Neumann fazer sentido*
+This make sense to us, because when considering bubbles in de Bruijn graphs we increase the von Neumann entropy as oposite to linear chain. *temos que checar se os grafos de bruijn sao irreducible e aperiodics para a aproximacao da entropia de Neumann ser verdadeira devido as condicoes impostas no paper*
+
+We have a primarily interest in evaluate the entropy of graph structures without taking into account the graph size. So the authors proposed a normalization with respect to the graph size removing the size dependence:
+
+$$J_{VN}^{D} = |V| \left| H_{VN}^{D} - \left( 1 - \frac{1}{|V|}\right)\right| = \frac{1}{2|V|} \left\{ \sum_{(u,v) \in E} \frac{d_{u}^{in}}{d_{u}^{in} (d_{u}^{out})^{2}} \right\}$$
+
+Note that the normalizing function $J_{VN}^{D}$ and the $H_{VN}^{D}$ entropy function have opposite monotonicity properties. In other words, when the normalized entropy decreases, the von Neumann entropy increases.
