@@ -102,6 +102,7 @@ def bsearch(bw,p):
                     jc=str(j)
                     #print("c:", jc)
                     if bw[jj]==str(j):
+                        print("l_extra LOOOOOOP")
                         if sa[jj]==msa[j][0]+(msa[j][1]+1)*msa[j][2]:
                             l_alts=first[str(j)]
                             r_alts=l_alts+totals[str(j)]
